@@ -2,10 +2,15 @@
 
 using calculadora;
 
-public class CalculadoraTest
+public class CalculadoraTest : IDisposable
 {
     private readonly Calculadora _sut = new(); // System Under Test
     private readonly Guid _guid = Guid.NewGuid();
+
+    public CalculadoraTest()
+    {
+        Console.WriteLine($"Setup: {nameof(CalculadoraTest)}");
+    }
 
     [Fact]
     public void Add_DeveSomar_DoisNumerosInteiros()
@@ -23,5 +28,10 @@ public class CalculadoraTest
     public void Guid_MustBeDifferente_ForEachFact2()
     {
         Console.WriteLine($"Guid 2: {_guid}");
+    }
+
+    public void Dispose()
+    {
+        Console.WriteLine($"Teardown: {nameof(CalculadoraTest)}");
     }
 }
