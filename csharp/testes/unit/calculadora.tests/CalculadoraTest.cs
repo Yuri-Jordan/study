@@ -18,6 +18,15 @@ public class CalculadoraTest : IAsyncLifetime
         Assert.Equal(3, new Calculadora().Add(1, 2));
     }
 
+    [Theory]
+    [InlineData(1, 2, 3)]
+    [InlineData(5, 0, 5)]
+    [InlineData(1, 90, 91)]
+    public void Add_DeveSomar_DoisNumerosInteiros_Theory(int a, int b, int expected)
+    {
+        Assert.Equal(expected, new Calculadora().Add(a, b));
+    }
+
     [Fact]
     public void Guid_MustBeDifferente_ForEachFact1()
     {
