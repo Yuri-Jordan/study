@@ -2,14 +2,14 @@
 
 using calculadora;
 
-public class CalculadoraTest : IDisposable
+public class CalculadoraTest : IAsyncLifetime
 {
     private readonly Calculadora _sut = new(); // System Under Test
     private readonly Guid _guid = Guid.NewGuid();
 
     public CalculadoraTest()
     {
-        Console.WriteLine($"Setup: {nameof(CalculadoraTest)}");
+        Console.WriteLine($"Setup ctor: {nameof(CalculadoraTest)}");
     }
 
     [Fact]
@@ -30,8 +30,15 @@ public class CalculadoraTest : IDisposable
         Console.WriteLine($"Guid 2: {_guid}");
     }
 
-    public void Dispose()
+    public async Task InitializeAsync()
     {
-        Console.WriteLine($"Teardown: {nameof(CalculadoraTest)}");
+        Console.WriteLine($"Setup InitializeAsync");
+        await Task.Delay(300); // Simulating async setup work
+    }
+
+    public async Task DisposeAsync()
+    {
+        Console.WriteLine($"Teardown DisposeAsync");
+        await Task.Delay(300); // Simulating async teardown work
     }
 }
