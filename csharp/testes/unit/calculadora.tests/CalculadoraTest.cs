@@ -1,10 +1,13 @@
 ﻿namespace calculadora.tests;
 
 using calculadora;
+using FluentAssertions;
 
 public class CalculadoraTest : IAsyncLifetime
 {
-    private readonly Calculadora _sut = new(); // System Under Test
+    // Arrange
+    // The System Under Test (SUT) is the instance of the class being tested.
+    private readonly Calculadora _sut = new();
     private readonly Guid _guid = Guid.NewGuid();
 
     public CalculadoraTest()
@@ -24,10 +27,13 @@ public class CalculadoraTest : IAsyncLifetime
     [InlineData(1, 90, 91, Skip = "This InlineData's test is skipped for demonstration purposes.")]
     public void Add_DeveSomar_DoisNumerosInteiros_Theory(int a, int b, int expected)
     {
-        Assert.Equal(expected, new Calculadora().Add(a, b));
+        // Act & Assert
+        var result = _sut.Add(a, b);
+
+        result.Should().Be(expected);
     }
 
-    [Fact (Skip = "This test is skipped for demonstration purposes.")]
+    [Fact(Skip = "This test is skipped for demonstration purposes.")]
     public void Guid_MustBeDifferente_ForEachFact1()
     {
         Console.WriteLine($"Guid 1: {_guid}");
@@ -41,13 +47,13 @@ public class CalculadoraTest : IAsyncLifetime
 
     public async Task InitializeAsync()
     {
-        Console.WriteLine($"Setup InitializeAsync");
+        Console.WriteLine($"Setup InitializeAsync: {nameof(CalculadoraTest)}");
         await Task.Delay(300); // Simulating async setup work
     }
 
     public async Task DisposeAsync()
     {
-        Console.WriteLine($"Teardown DisposeAsync");
+        Console.WriteLine($"Teardown DisposeAsync: {nameof(CalculadoraTest)}");
         await Task.Delay(300); // Simulating async teardown work
     }
 }
