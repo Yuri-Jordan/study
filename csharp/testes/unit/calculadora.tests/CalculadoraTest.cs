@@ -21,13 +21,13 @@ public class CalculadoraTest : IAsyncLifetime
     [Theory]
     [InlineData(1, 2, 3)]
     [InlineData(5, 0, 5)]
-    [InlineData(1, 90, 91)]
+    [InlineData(1, 90, 91, Skip = "This InlineData's test is skipped for demonstration purposes.")]
     public void Add_DeveSomar_DoisNumerosInteiros_Theory(int a, int b, int expected)
     {
         Assert.Equal(expected, new Calculadora().Add(a, b));
     }
 
-    [Fact]
+    [Fact (Skip = "This test is skipped for demonstration purposes.")]
     public void Guid_MustBeDifferente_ForEachFact1()
     {
         Console.WriteLine($"Guid 1: {_guid}");
