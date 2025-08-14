@@ -4,6 +4,11 @@ public class Calculadora
 {
     // Event triggered when any operation is executed
     public event EventHandler<string>? OperationExecuted;
+    internal bool InternalMethodTest()
+    {
+        Console.WriteLine($"Internal method of: {nameof(Calculadora)}");
+        return true;
+    }
 
     public int Add(int a, int b)
     {

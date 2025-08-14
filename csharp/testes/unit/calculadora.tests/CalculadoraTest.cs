@@ -63,6 +63,13 @@ public class CalculadoraTest : IAsyncLifetime
             .Raise(nameof(Calculadora.OperationExecuted));
     }
 
+    [Fact]
+    public void Test_Internals()
+    {
+        var result = _sut.InternalMethodTest();
+        result.Should().BeTrue();
+    }
+
     public async Task InitializeAsync()
     {
         Console.WriteLine($"Setup InitializeAsync: {nameof(CalculadoraTest)}");
