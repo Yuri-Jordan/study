@@ -52,6 +52,17 @@ public class CalculadoraTest : IAsyncLifetime
         result.Should().Throw<DivideByZeroException>();
     }
 
+    [Fact]
+    public void Add_MustRaise_Event()
+    {
+        var eventWatcher = _sut.Monitor();
+        _sut.Add(10, 10);
+
+        eventWatcher
+            .Should()
+            .Raise(nameof(Calculadora.OperationExecuted));
+    }
+
     public async Task InitializeAsync()
     {
         Console.WriteLine($"Setup InitializeAsync: {nameof(CalculadoraTest)}");
