@@ -45,6 +45,13 @@ public class CalculadoraTest : IAsyncLifetime
         Console.WriteLine($"Guid 2: {_guid}");
     }
 
+    [Fact]
+    public void Divide_MustThrow_DivideByZeroException_When_DividendEqualsZero()
+    {
+        Action result = () => _sut.Divide(10, 0);
+        result.Should().Throw<DivideByZeroException>();
+    }
+
     public async Task InitializeAsync()
     {
         Console.WriteLine($"Setup InitializeAsync: {nameof(CalculadoraTest)}");
