@@ -3,18 +3,21 @@
 using calculadora;
 using FluentAssertions;
 using Xunit;
+using NSubstitute;
 
 [Collection("GuidCollectionFixture")]
 public class CalculadoraTest : IAsyncLifetime
 {
     // Arrange
     // The System Under Test (SUT) is the instance of the class being tested.
-    private readonly Calculadora _sut = new();
+    private readonly Calculadora _sut;
     private readonly Guid _guid = Guid.NewGuid();
     private readonly GuidClassFixture _fixture;
+    private readonly IDateTimeProvider _dateTimeProvider = Substitute.For<IDateTimeProvider>();
 
     public CalculadoraTest(GuidClassFixture fixture)
     {
+        _sut = new Calculadora(_dateTimeProvider);
         _fixture = fixture;
         Console.WriteLine($"Setup ctor: {nameof(CalculadoraTest)}");
     }
@@ -22,7 +25,7 @@ public class CalculadoraTest : IAsyncLifetime
     [Fact]
     public void Add_DeveSomar_DoisNumerosInteiros()
     {
-        Assert.Equal(3, new Calculadora().Add(1, 2));
+        Assert.Equal(3, _sut.Add(1, 2));
     }
 
     [Theory]
@@ -90,6 +93,33 @@ public class CalculadoraTest : IAsyncLifetime
     public async Task Test_Timeout()
     {
         await Task.Delay(3000);
+    }
+
+    [Fact]
+    public void GetGreetMessage_MustGenerateGoodMorning_InMorning()
+    {
+        var morningDate = new DateTime(2025, 8, 17, 5, 0, 0);
+        _dateTimeProvider.DateTimeNow.Returns(morningDate);
+        var result = _sut.GetGreetMessage();
+        result.Should().Be("Good Morning");
+    }
+
+    [Fact]
+    public void GetGreetMessage_MustGenerateGoodAfternoom_InAfternoom()
+    {
+        var morningDate = new DateTime(2025, 8, 17, 12, 0, 0);
+        _dateTimeProvider.DateTimeNow.Returns(morningDate);
+        var result = _sut.GetGreetMessage();
+        result.Should().Be("Good Afternoom");
+    }
+
+    [Fact]
+    public void GetGreetMessage_MustGenerateGoodEvening_InEvening()
+    {
+        var morningDate = new DateTime(2025, 8, 17, 18, 0, 0);
+        _dateTimeProvider.DateTimeNow.Returns(morningDate);
+        var result = _sut.GetGreetMessage();
+        result.Should().Be("Good Evening");
     }
 
     public async Task InitializeAsync()

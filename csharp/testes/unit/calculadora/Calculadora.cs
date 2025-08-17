@@ -2,6 +2,15 @@ namespace calculadora;
 
 public class Calculadora
 {
+    private readonly IDateTimeProvider _dateTimeProvider;
+
+    public Calculadora(IDateTimeProvider dateTimeProvider)
+    {
+        _dateTimeProvider = dateTimeProvider;
+        var greet = GetGreetMessage();
+        Console.WriteLine($"{greet}! Welcome to calculator: {nameof(Calculadora)}");
+    }
+
     // Event triggered when any operation is executed
     public event EventHandler<string>? OperationExecuted;
     internal bool InternalMethodTest()
@@ -38,5 +47,16 @@ public class Calculadora
         double result = (double)a / b;
         OperationExecuted?.Invoke(this, $"Divide: {a} / {b} = {result}");
         return result;
+    }
+
+    public string GetGreetMessage()
+    {
+        var currentDate = _dateTimeProvider.DateTimeNow;
+        return currentDate.Hour switch
+        {
+            >= 5 and < 12 => "Good Morning",
+            >= 12 and < 18 => "Good Afternoom",
+            _ => "Good Evening"
+        };
     }
 }
