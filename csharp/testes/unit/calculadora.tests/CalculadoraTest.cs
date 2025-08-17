@@ -3,15 +3,17 @@
 using calculadora;
 using FluentAssertions;
 
-public class CalculadoraTest : IAsyncLifetime
+public class CalculadoraTest : IAsyncLifetime, IClassFixture<GuidClassFixture>
 {
     // Arrange
     // The System Under Test (SUT) is the instance of the class being tested.
     private readonly Calculadora _sut = new();
     private readonly Guid _guid = Guid.NewGuid();
+    private readonly GuidClassFixture _fixture;
 
-    public CalculadoraTest()
+    public CalculadoraTest(GuidClassFixture fixture)
     {
+        _fixture = fixture;
         Console.WriteLine($"Setup ctor: {nameof(CalculadoraTest)}");
     }
 
@@ -43,6 +45,18 @@ public class CalculadoraTest : IAsyncLifetime
     public void Guid_MustBeDifferente_ForEachFact2()
     {
         Console.WriteLine($"Guid 2: {_guid}");
+    }
+
+    [Fact]
+    public void Guid_MustBeEqual_ForEachTestInFixture1()
+    {
+        Console.WriteLine($"Guid fixture 1: {_fixture.Guid}");
+    }
+
+    [Fact]
+    public void Guid_MustBeEqual_ForEachTestInFixture2()
+    {
+        Console.WriteLine($"Guid fixture 2: {_fixture.Guid}");
     }
 
     [Fact]

@@ -10,6 +10,7 @@
 
 # Visual Studio Code settings
 *.vscode/
+*.vs
 
 # Test results
 TestResults/
