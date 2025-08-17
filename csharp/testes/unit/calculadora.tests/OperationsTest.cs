@@ -3,15 +3,18 @@
 using calculadora;
 using FluentAssertions;
 
+[Collection("GuidCollectionFixture")]
 public class OperationsTest : IAsyncLifetime
 {
     // Arrange
     // The System Under Test (SUT) is the instance of the class being tested.
     private readonly Operation _sut = new();
-    private readonly Guid _guid = Guid.NewGuid();
+    private readonly GuidClassFixture _fixture;
 
-    public OperationsTest()
+
+    public OperationsTest(GuidClassFixture fixture)
     {
+        _fixture = fixture;
         Console.WriteLine($"Setup ctor: {nameof(OperationsTest)}");
     }
 
@@ -26,6 +29,12 @@ public class OperationsTest : IAsyncLifetime
         };
 
         _sut.GetOp4Test().Should().BeEquivalentTo(expected);
+    }
+
+    [Fact]
+    public void Guid_MustBeEqual_ForEachTestInCollectionFixture()
+    {
+        Console.WriteLine($"Guid collection fixture: {_fixture.Guid}");
     }
 
     public async Task InitializeAsync()

@@ -2,8 +2,10 @@
 
 using calculadora;
 using FluentAssertions;
+using Xunit;
 
-public class CalculadoraTest : IAsyncLifetime, IClassFixture<GuidClassFixture>
+[Collection("GuidCollectionFixture")]
+public class CalculadoraTest : IAsyncLifetime
 {
     // Arrange
     // The System Under Test (SUT) is the instance of the class being tested.
