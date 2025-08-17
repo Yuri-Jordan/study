@@ -86,6 +86,12 @@ public class CalculadoraTest : IAsyncLifetime
         result.Should().BeTrue();
     }
 
+    [Fact(Timeout = 2000)]
+    public async Task Test_Timeout()
+    {
+        await Task.Delay(3000);
+    }
+
     public async Task InitializeAsync()
     {
         Console.WriteLine($"Setup InitializeAsync: {nameof(CalculadoraTest)}");
